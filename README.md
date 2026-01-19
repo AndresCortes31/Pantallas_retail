@@ -1,2 +1,0 @@
-# Pantallas_retail
-
