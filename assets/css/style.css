@@ -1,0 +1,1462 @@
+/* =========================
+   RESET GLOBAL
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+/* =========================
+   FONDO GENERAL
+========================= */
+body {
+    background: #b6d63a;
+}
+
+/* =========================
+   CONTENEDOR PRINCIPAL
+========================= */
+.mockup-container {
+    position: relative;
+    margin: 15px;
+    background: #ffffff;
+    border-radius: 30px;
+    padding: 20px;
+
+    /* 🔑 NO altura fija */
+    min-height: calc(100vh - 30px);
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================
+   TABS
+========================= */
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    flex-wrap: nowrap;        /* 🚫 nunca bajar */
+    overflow-x: auto;         /* 👉 scroll horizontal si no caben */
+    overflow-y: hidden;
+
+    scrollbar-width: none;    /* Firefox */
+}
+
+.tabs::-webkit-scrollbar {
+    display: none;            /* Chrome / Edge */
+}
+
+.tab {
+    background: #4f8f46;
+    color: white;
+
+    padding: 10px 16px;       /* un poco más compacto */
+    border-radius: 20px 20px 0 0;
+
+    font-weight: bold;
+    font-size: 0.82rem;
+    white-space: nowrap;      /* 🔑 nunca partir texto */
+    flex-shrink: 0;           /* 🔑 no encogerse */
+}
+
+.tab.active {
+    background: #ffffff;
+    color: #4f8f46;
+    border: 2px solid #4f8f46;
+    border-bottom: none;
+}
+
+/*////////////////////////////////////////////// INICIO Css del archivo num_sorteados_mes.php////////////////////////////////////////////////*/
+
+/* =========================
+   CONTENIDO
+========================= */
+.contenido {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+    min-height: 0;
+}
+
+/* =========================
+   COLUMNA IZQUIERDA
+========================= */
+.col-izq {
+    width: 30%;
+    min-width: 260px;
+}
+
+.frame-izq {
+    border: 3px solid #b6d63a;
+    border-radius: 25px;
+    padding: 25px;
+    height: 100%;
+}
+
+.frame-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo-diaria {
+    width: 120px;
+}
+
+.col-izq h2 {
+    color: #4f8f46;
+    font-size: 2rem;
+    line-height: 1.2;
+    margin-bottom: 25px;
+}
+
+/* LEYENDA */
+.leyenda {
+    list-style: none;
+}
+
+.leyenda li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    font-weight: bold;
+    color: #4f8f46;
+}
+
+.dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+}
+.dot.s1 { background: #f7c600; }
+.dot.s2 { background: #b6d63a; }
+.dot.s3 { background: #4f8f46; }
+.dot.s4 { background: #ff7a00; }
+
+/* =========================
+   COLUMNA DERECHA
+========================= */
+.col-der {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+/* =========================
+   FILTROS
+========================= */
+.filtros-fecha {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+/* Año */
+.selector-anio {
+    position: relative;
+    min-width: 160px;
+}
+
+.label-anio {
+    font-weight: bold;
+    color: #ff7a00;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.anio-dropdown {
+    background: white;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #4f8f46;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    cursor: pointer;
+}
+
+.anio-opciones {
+    position: absolute;
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    margin-top: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 10;
+}
+
+.anio-opciones div {
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #4f8f46;
+}
+.anio-opciones div:hover {
+    background: #f2f2f2;
+}
+
+/* Meses */
+.meses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.mes {
+    font-weight: bold;
+    color: #4f8f46;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.mes.activo {
+    background: #4f8f46;
+    color: white;
+}
+
+.mes.disabled {
+    opacity: 0.3;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+/* =========================
+   GRID DE NÚMEROS (CLAVE)
+========================= */
+.grid-circulos {
+    display: grid;
+
+    /* 🔑 AUTO RESPONSIVE */
+    grid-template-columns: repeat(auto-fit, minmax(58px, 1fr));
+
+    gap: 15px;
+
+    /* 🔑 SCROLL NATURAL SI HACE FALTA */
+    overflow-y: auto;
+    padding-bottom: 10px;
+}
+
+/* CÍRCULOS */
+.circulo {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: 3px solid #4f8f46;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #4f8f46;
+    font-size: 1.1rem;
+    margin: auto;
+}
+
+/* =========================
+   LOGO ESQUINA
+========================= */
+.logo-mockup {
+    position: absolute;
+    top: 18px;
+    right: 25px;
+    width: 65px;
+    z-index: 5;
+}
+
+/* =========================
+   BREAKPOINTS
+========================= */
+@media (max-width: 1100px) {
+    .contenido {
+        flex-direction: column;
+    }
+
+    .col-izq {
+        width: 100%;
+    }
+}
+
+/* =========================
+   RESPONSIVE TARJETA IZQUIERDA
+========================= */
+
+/* Tablet */
+@media (max-width: 900px) {
+    .frame-izq {
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+        gap: 20px;
+    }
+
+    .frame-header {
+        margin-bottom: 0;
+    }
+
+    .logo-diaria {
+        width: 80px;
+    }
+
+    .col-izq h2 {
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .frame-izq {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .logo-diaria {
+        width: 70px;
+    }
+
+    .leyenda li {
+        justify-content: center;
+    }
+}
+
+/* =========================
+   ESTADOS TEMPORALES DE NÚMEROS
+========================= */
+
+/* Base */
+.circulo {
+    transition: all 0.2s ease;
+}
+
+/* Sorteado 1 vez */
+.circulo.s1 {
+    background: #f7c600;
+    color: #ffffff;
+    border-color: #f7c600;
+}
+
+/* Sorteado 2 veces */
+.circulo.s2 {
+    background: #b6d63a;
+    color: #ffffff;
+    border-color: #b6d63a;
+}
+
+/* Sorteado 3 veces */
+.circulo.s3 {
+    background: #4f8f46;
+    color: #ffffff;
+    border-color: #4f8f46;
+}
+
+/* Sorteado 4+ veces */
+.circulo.s4 {
+    background: #ff7a00;
+    color: #ffffff;
+    border-color: #ff7a00;
+}
+/*////////////////////////////////////////////// FIN Css del archivo num_sorteados_mes.php////////////////////////////////////////////////*/
+
+/*////////////////////////////////////////////// Inicio Css del archivo resultados_anteriores.php////////////////////////////////////////////////*/
+/* ===============================
+   MOCKUP 2 – resultados_anteriores
+   =============================== */
+
+   .contenido-calendario {
+    display: flex;
+    gap: 40px;
+
+    background: #ffffff;
+    border: 4px solid #b7d43c;
+    border-radius: 32px;
+    padding: 40px;
+}
+
+/* ===============================
+   COLUMNA IZQUIERDA
+   =============================== */
+
+.cal-izq {
+    flex: 1;
+}
+
+/* ===============================
+   SELECTORES
+   =============================== */
+
+.selectores {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+/* Labels */
+.selector .label,
+.selector-anio .label-anio,
+.selector-mes .label {
+    display: block;
+    color: #ff7a00;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+
+/* Caja base */
+.select-box,
+.selector-anio .anio-dropdown {
+    background: #f6f6f6;
+    padding: 14px 20px;
+    border-radius: 16px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #4a8f4c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Año visible */
+.selector-anio .anio-activo {
+    color: #4a8f4c;
+    font-weight: bold;
+}
+
+.selector-anio .flecha {
+    color: #4a8f4c;
+}
+
+/* Dropdown de años */
+.selector-anio {
+    position: relative;
+}
+
+.selector-anio .anio-opciones {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    margin-top: 6px;
+    z-index: 20;
+    display: none;
+}
+
+.selector-anio .anio-opciones div {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #4a8f4c;
+}
+
+.selector-anio .anio-opciones div:hover {
+    background: #e9f2d0;
+}
+
+/* ===============================
+   SELECTOR DE MES
+   =============================== */
+
+.selector-mes {
+    position: relative;
+}
+
+.mes-opciones {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    margin-top: 6px;
+    z-index: 20;
+    display: none;
+}
+
+.mes-opciones div {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #4a8f4c;
+}
+
+.mes-opciones div:hover {
+    background: #e9f2d0;
+}
+
+
+/* ===============================
+   CALENDARIO
+   =============================== */
+
+.calendario {
+    max-width: 420px;
+}
+
+.dias-semana,
+.dias-mes {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+}
+
+.dias-semana span {
+    font-weight: bold;
+    padding: 10px 0;
+}
+
+.dias-mes span {
+    padding: 12px 0;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+/* ===============================
+   COLUMNA DERECHA
+   =============================== */
+
+.cal-der {
+    flex: 1;
+}
+
+/* Sorteos */
+.sorteo {
+    margin-bottom: 40px;
+}
+
+.sorteo h3 {
+    color: #4a8f4c;
+    font-size: 26px;
+    margin-bottom: 15px;
+}
+
+/* Bolas */
+.bolas {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.bola {
+    width: 64px;
+    height: 64px;
+    background: #4a8f4c;
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 28px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Bola clara */
+.bola.clara {
+    background: #9ac43c;
+}
+
+/* Bola Más 1 */
+.bola.mas {
+    background: #9ac43c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bola.mas .logo-mas {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+
+/* Desktop grande / TV */
+@media (min-width: 1400px) {
+    .contenido-calendario {
+        padding: 50px;
+    }
+
+    .bola {
+        width: 90px;
+        height: 90px;
+        font-size: 38px;
+    }
+
+    .sorteo h3 {
+        font-size: 34px;
+    }
+}
+
+/* Desktop / Laptop */
+@media (max-width: 1200px) {
+    .bola {
+        width: 76px;
+        height: 76px;
+        font-size: 32px;
+    }
+
+    .sorteo h3 {
+        font-size: 28px;
+    }
+
+    .contenido-calendario {
+        padding: 35px;
+    }
+}
+
+/* Tablet horizontal */
+@media (max-width: 1024px) {
+    .contenido-calendario {
+        flex-direction: column;
+        padding: 30px;
+    }
+
+    .cal-izq,
+    .cal-der {
+        width: 100%;
+    }
+
+    .cal-der {
+        margin-top: 40px;
+    }
+
+    .bolas {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .sorteo {
+        text-align: center;
+    }
+
+    .selectores {
+        flex-direction: column;
+    }
+}
+
+/* Tablet chica / móvil */
+@media (max-width: 768px) {
+    .selectores {
+        gap: 20px;
+    }
+
+    .select-box,
+    .selector-anio .anio-dropdown {
+        font-size: 22px;
+        padding: 14px 20px;
+    }
+
+    .bola {
+        width: 68px;
+        height: 68px;
+        font-size: 28px;
+    }
+
+    .dias-mes span {
+        height: 42px;
+        line-height: 42px;
+        font-size: 16px;
+    }
+
+    .dia-activo {
+        width: 42px;
+        height: 42px;
+        line-height: 42px;
+    }
+}
+
+.dia-deshabilitado {
+    color: #ccc;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+
+/*////////////////////////////////////////////// FIN Css del archivo resultados_anteriores.php////////////////////////////////////////////////*/
+
+/*////////////////////////////////////////////// INICIO Css del archivo num_sorteados_semana.php////////////////////////////////////////////////*/
+/* ===============================
+   NUMEROS POR DIA DE SEMANA
+   =============================== */
+
+.contenido-calendario {
+    display: flex;
+    justify-content: center;     /* 🔑 CENTRA TODO */
+    width: 100%;
+}
+
+/* ===============================
+   COLUMNA IZQUIERDA (ÚNICA)
+   =============================== */
+
+.cal-izq {
+    width: 100%;
+    max-width: 900px;            /* 🔑 controla el ancho real */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ===============================
+   SELECTORES
+   =============================== */
+
+.selectores {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.select-box,
+.mes-dropdown,
+.dia-dropdown {
+    background: #f6f6f6;
+    padding: 16px 24px;
+    border-radius: 18px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #4caf50;
+    min-width: 240px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+
+/* ===============================
+   LISTADO
+   =============================== */
+
+.listado-sorteos {
+    width: 100%;                 /* 🔑 OCUPA TODO */
+    border: 2px solid #9ccc65;
+    border-radius: 30px;
+    padding: 22px 24px;
+    max-height: 480px;
+    overflow-y: auto;
+    scrollbar-gutter: stable;
+}
+
+/* Scroll */
+.listado-sorteos::-webkit-scrollbar {
+    width: 8px;
+}
+.listado-sorteos::-webkit-scrollbar-thumb {
+    background-color: #9ccc65;
+    border-radius: 10px;
+}
+
+/* ===============================
+   TITULOS
+   =============================== */
+
+.titulos {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.titulos span {
+    background: #3e8e41;
+    color: #fff;
+    padding: 10px 0;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.titulos span:first-child {
+    justify-content: flex-start;
+    padding-left: 16px;
+}
+
+/* ===============================
+   FILAS
+   =============================== */
+
+.fila {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #cfe8a9;
+}
+
+.fila:last-child {
+    border-bottom: none;
+}
+
+.fila > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Fecha */
+
+.fecha {
+    font-weight: bold;
+    color: #4caf50;
+    font-size: 17px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 16px;
+}
+
+/* ===============================
+   NUMEROS
+   =============================== */
+
+.num {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #4caf50;
+    white-space: nowrap;
+}
+
+.num img {
+    width: 26px;
+    height: auto;
+}
+
+/* ===============================
+   DROPDOWNS
+   =============================== */
+
+.selector-mes,
+.selector-dia {
+    position: relative;
+    z-index: 300;
+}
+
+.label-mes {
+    font-size: 20px;
+    font-weight: bold;
+    color: #ff7a00;
+    margin-bottom: 6px;
+    display: block;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.mes-opciones,
+.dia-opciones {
+    display: none;
+    position: absolute;
+    top: 110%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.15);
+    z-index: 400;
+}
+
+.mes-opciones div,
+.dia-opciones div {
+    padding: 12px 18px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #4a8f4c;
+}
+
+.mes-opciones div:hover,
+.dia-opciones div:hover {
+    background: #f0f0f0;
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+
+@media (max-width: 900px) {
+    .cal-izq {
+        max-width: 100%;
+        padding: 0 16px;
+    }
+
+    .titulos,
+    .fila {
+        grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    }
+}
+
+/* ===============================
+   FIN NUMEROS POR DIA DE SEMANA
+   =============================== */
+/*////////////////////////////////////////////// fin Css del archivo num_sorteados_semana.php////////////////////////////////////////////////*/
+
+/*////////////////////////////////////////////// inicio Css del archivo top_lineas_ganadoras.php////////////////////////////////////////////////*/
+/* ===============================
+   TOP 3 LINEAS GANADORAS
+   =============================== */
+
+   .contenido-top-lineas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+/* ===============================
+   SELECTORES
+   =============================== */
+
+.selectores {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.select-box {
+    background: #f6f6f6;
+    padding: 16px 24px;
+    border-radius: 18px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #4caf50;
+    min-width: 240px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.titulo-selector {
+    font-size: 14px;
+    font-weight: bold;
+    color: #ff7a00;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+
+
+
+/* ===============================
+   LISTADO
+   =============================== */
+
+.listado-lineas {
+    width: 100%;
+    max-width: 620px;
+    max-height: 420px;        /* 🔑 ALTURA VISIBLE */
+    border: 2px solid #9ccc65;
+    border-radius: 30px;
+    padding: 26px 28px;
+
+    overflow-y: auto;         /* 🔑 SCROLL */
+}
+
+.listado-lineas::-webkit-scrollbar {
+    width: 8px;
+}
+
+.listado-lineas::-webkit-scrollbar-thumb {
+    background: #9ccc65;
+    border-radius: 10px;
+}
+
+.listado-lineas::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* ===============================
+   TITULOS
+   =============================== */
+
+.titulos-lineas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.titulos-lineas span {
+    background: #3e8e41;
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* ===============================
+   FILAS
+   =============================== */
+
+.fila-linea {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 18px 0;
+    border-bottom: 1px solid #cfe8a9;
+}
+
+.fila-linea:last-child {
+    border-bottom: none;
+}
+
+.linea {
+    font-size: 22px;
+    font-weight: bold;
+    color: #4caf50;
+}
+
+.valor {
+    font-size: 32px;
+    font-weight: bold;
+    color: #3e8e41;
+    text-align: center;
+}
+
+/* ===============================
+   LAPTOPS MEDIANAS
+   =============================== */
+
+@media (max-width: 1366px) {
+    .listado-lineas {
+        max-width: 560px;
+    }
+}
+
+/* ===============================
+   MOBILE / TABLET
+   =============================== */
+
+@media (max-width: 900px) {
+    .listado-lineas {
+        max-width: 100%;
+    }
+}
+
+/* ===============================
+   DROPDOWN AÑO (TOP LINEAS GANADORAS)
+   =============================== */
+
+.selector {
+    position: relative; /* 🔑 necesario para posicionar el dropdown */
+}
+
+/* Caja visible (simula select) */
+.anio-dropdown {
+    background: #f6f6f6;
+    padding: 16px 24px;
+    border-radius: 18px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #4caf50;
+    min-width: 240px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Flecha */
+.anio-dropdown .flecha {
+    font-size: 14px;
+}
+
+/* Contenedor de opciones */
+.anio-opciones {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    width: 100%;
+
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    z-index: 50;
+    overflow: hidden;
+}
+
+/* Cada opción */
+.anio-opciones div {
+    padding: 14px 18px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: #4caf50;
+}
+
+.anio-opciones div:hover {
+    background: #f1f8e9;
+}
+
+/* Estado abierto */
+.anio-opciones.open {
+    display: block;
+}
+
+/* ===============================
+   DROPDOWN MES
+   =============================== */
+
+.mes-dropdown {
+    background: #f6f6f6;
+    padding: 16px 24px;
+    border-radius: 18px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #4caf50;
+    min-width: 240px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.mes-opciones {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    z-index: 50;
+    overflow: hidden;
+}
+
+.mes-opciones div {
+    padding: 14px 18px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: #4caf50;
+}
+
+.mes-opciones div:hover {
+    background: #f1f8e9;
+}
+
+.mes-opciones.open {
+    display: block;
+}
+
+
+
+/*////////////////////////////////////////////// FIN Css del archivo top_lineas_ganadoras.php////////////////////////////////////////////////*/
+
+/*////////////////////////////////////////////// INICIO Css del archivo top_numeros_duros.php////////////////////////////////////////////////*/
+/* ===============================
+   TOP 10 NUMEROS DUROS
+   =============================== */
+
+   .contenido-top-duros {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+/* ===============================
+   LISTADO
+   =============================== */
+
+.listado-duros {
+    width: 100%;
+    max-width: 640px;
+    border: 2px solid #9ccc65;
+    border-radius: 30px;
+    padding: 20px 22px;
+        max-height: 520px;       
+    overflow-y: auto; 
+}
+
+.listado-duros::-webkit-scrollbar {
+    width: 8px;
+}
+
+.listado-duros::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.listado-duros::-webkit-scrollbar-thumb {
+    background-color: #9ccc65;
+    border-radius: 10px;
+}
+
+
+/* ===============================
+   TITULOS
+   =============================== */
+
+.titulos-duros {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.titulos-duros span {
+    background: #3e8e41;
+    color: #fff;
+    padding: 12px 18px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    justify-items: center;
+}
+
+/* ===============================
+   FILAS
+   =============================== */
+
+.fila-duro {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    align-items: center;
+    justify-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #cfe8a9;
+}
+
+.fila-duro:last-child {
+    border-bottom: none;
+}
+
+.numero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #4caf50;
+}
+
+.numero img {
+    width: 26px;
+}
+
+.dias {
+    font-size: 18px;
+    font-weight: bold;
+    color: #3e8e41;
+    text-align: center;
+}
+
+.selector-anio,
+.selector-mes {
+    position: relative;
+}
+
+.anio-opciones,
+.mes-opciones {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    padding: 10px 0;
+    display: none;
+    z-index: 50; /* 🔑 CLAVE */
+}
+
+.anio-opciones div,
+.mes-opciones div {
+    padding: 10px 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.anio-opciones div:hover,
+.mes-opciones div:hover {
+    background: #f0f0f0;
+}
+
+
+/* ===============================
+   LAPTOPS MEDIANAS
+   =============================== */
+
+@media (max-width: 1366px) {
+    .listado-duros {
+        max-width: 580px;
+    }
+}
+
+/* ===============================
+   MOBILE / TABLET
+   =============================== */
+
+@media (max-width: 900px) {
+    .listado-duros {
+        max-width: 100%;
+    }
+}
+
+/*////////////////////////////////////////////// FIN Css del archivo top_numeros_duros.php////////////////////////////////////////////////*/
+
+/*////////////////////////////////////////////// INICIO Css del archivo top_numeros_ganadores_anio.php////////////////////////////////////////////////*/
+/* ===============================
+   TOP NUMEROS GANADORES DEL AÑO
+   =============================== */
+
+   .contenido-top-anio {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* ===============================
+   SELECTORES + TEXTO
+   =============================== */
+
+.descripcion-top {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4caf50;
+    line-height: 1.4;
+    max-width: 700px;
+}
+
+/* ===============================
+   TABLA
+   =============================== */
+
+.tabla-anio {
+    width: 100%;
+    border: 2px solid #9ccc65;
+    border-radius: 30px;
+    padding: 18px;
+    overflow-x: auto;
+}
+
+/* ===============================
+   FILAS
+   =============================== */
+
+.fila {
+    display: grid;
+    grid-template-columns:
+        140px
+        repeat(12, 1fr)
+        80px;
+    align-items: center;
+    text-align: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #cfe8a9;
+}
+
+.fila:last-child {
+    border-bottom: none;
+}
+
+/* ===============================
+   CABECERA
+   =============================== */
+
+.fila-head span {
+    background: #3e8e41;
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* ===============================
+   NUMERO
+   =============================== */
+
+.numero {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #4caf50;
+}
+
+.numero img {
+    width: 26px;
+}
+
+/* ===============================
+   TOTAL
+   =============================== */
+
+.total {
+    background: #3e8e41;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 12px;
+    padding: 6px 0;
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+
+@media (max-width: 1366px) {
+    .descripcion-top {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .tabla-anio {
+        overflow-x: auto;
+    }
+}
+
+/*////////////////////////////////////////////// FIN Css del archivo top_numeros_ganadores_anio.php////////////////////////////////////////////////*/
