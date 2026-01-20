@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // 🔐 GUARD CLAUSE: este JS es SOLO para Top Líneas
+    if (!document.getElementById("listadoLineas")) {
+        console.warn("Top Líneas: pantalla no activa, JS detenido");
+        return;
+    }
 
     let anioSeleccionado = new Date().getFullYear();
     let mesSeleccionado  = 0;
