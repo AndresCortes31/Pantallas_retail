@@ -1,7 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // 🔐 Guard clause – solo Pantalla 5
-    const contenedor = document.querySelector(".listado-duros");
+    /* ===============================
+       GUARD CLAUSE – SOLO PANTALLA 5
+       =============================== */
+    const contenedor = document.getElementById("listadoDuros");
     if (!contenedor) {
         console.warn("Top Números Duros: pantalla no activa");
         return;
@@ -48,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
             anioActivo.textContent = anioSeleccionado;
             anioOpciones.classList.remove("open");
 
-            // reset mes
+            // Reset mes
             mesSeleccionado = 0;
             mesActivo.textContent = "Todos los meses";
 
