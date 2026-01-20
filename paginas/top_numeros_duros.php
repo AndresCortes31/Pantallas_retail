@@ -35,7 +35,8 @@
                         <span class="flecha">&#9662;</span>
                     </div>
 
-                    <div class="mes-opciones">
+                    <div class="listado-duros" id="listadoDuros">
+
                         <!-- JS las llena -->
                     </div>
                 </div>

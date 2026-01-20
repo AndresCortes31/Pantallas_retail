@@ -22,6 +22,7 @@
     <script src="assets/js/num_sorteados_semana.js"></script>
     <script src="assets/js/resultados-anteriores.js"></script>
     <script src="assets/js/top_lineas_ganadoras.js"></script>
+    <script src="assets/js/top_numeros_duros.js"></script>
 
 
 

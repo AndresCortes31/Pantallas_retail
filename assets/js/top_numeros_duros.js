@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const mesActivo     = document.querySelector(".mes-activo");
 
     /* ===============================
-       ESTADO INICIAL VISUAL
+       ESTADO VISUAL INICIAL
        =============================== */
     anioActivo.textContent = anioSeleccionado;
     mesActivo.textContent  = "Todos los meses";
@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     anioOpciones.querySelectorAll("div").forEach(opcion => {
         opcion.addEventListener("click", () => {
+
             anioSeleccionado = parseInt(opcion.dataset.anio, 10);
             anioActivo.textContent = anioSeleccionado;
             anioOpciones.classList.remove("open");
@@ -50,6 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
             // reset mes
             mesSeleccionado = 0;
             mesActivo.textContent = "Todos los meses";
+
+            cargarMesesPorAnio(anioSeleccionado);
 
             console.log("Año:", anioSeleccionado, "Mes:", mesSeleccionado);
         });
@@ -64,38 +67,42 @@ document.addEventListener("DOMContentLoaded", () => {
         anioOpciones.classList.remove("open");
     });
 
-    const meses = [
-        { id: 0,  nombre: "Todos los meses" },
-        { id: 1,  nombre: "Enero" },
-        { id: 2,  nombre: "Febrero" },
-        { id: 3,  nombre: "Marzo" },
-        { id: 4,  nombre: "Abril" },
-        { id: 5,  nombre: "Mayo" },
-        { id: 6,  nombre: "Junio" },
-        { id: 7,  nombre: "Julio" },
-        { id: 8,  nombre: "Agosto" },
-        { id: 9,  nombre: "Septiembre" },
-        { id: 10, nombre: "Octubre" },
-        { id: 11, nombre: "Noviembre" },
-        { id: 12, nombre: "Diciembre" }
-    ];
+    /* ===============================
+       CARGAR MESES (MISMA LÓGICA P4)
+       =============================== */
+    function cargarMesesPorAnio(anio) {
 
-    mesOpciones.innerHTML = "";
-    meses.forEach(m => {
-        const div = document.createElement("div");
-        div.dataset.mes = m.id;
-        div.textContent = m.nombre;
+        fetch(`../api/meses_por_anio.php?anio=${anio}`)
+            .then(res => res.json())
+            .then(meses => {
 
-        div.addEventListener("click", () => {
-            mesSeleccionado = m.id;
-            mesActivo.textContent = m.nombre;
-            mesOpciones.classList.remove("open");
+                const nombresMeses = [
+                    "", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+                    "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+                ];
 
-            console.log("Año:", anioSeleccionado, "Mes:", mesSeleccionado);
-        });
+                mesOpciones.innerHTML = `<div data-mes="0">Todos los meses</div>`;
 
-        mesOpciones.appendChild(div);
-    });
+                meses.forEach(mes => {
+                    mesOpciones.innerHTML += `
+                        <div data-mes="${mes}">
+                            ${nombresMeses[mes]}
+                        </div>
+                    `;
+                });
+
+                mesOpciones.querySelectorAll("div").forEach(opcion => {
+                    opcion.addEventListener("click", () => {
+                        mesSeleccionado = parseInt(opcion.dataset.mes, 10);
+                        mesActivo.textContent = opcion.textContent;
+                        mesOpciones.classList.remove("open");
+
+                        console.log("Año:", anioSeleccionado, "Mes:", mesSeleccionado);
+                    });
+                });
+            })
+            .catch(err => console.error("Error cargando meses:", err));
+    }
 
     /* ===============================
        CLICK FUERA
@@ -108,5 +115,10 @@ document.addEventListener("DOMContentLoaded", () => {
             mesOpciones.classList.remove("open");
         }
     });
+
+    /* ===============================
+       INIT
+       =============================== */
+    cargarMesesPorAnio(anioSeleccionado);
 
 });
