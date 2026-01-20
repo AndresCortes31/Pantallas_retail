@@ -28,11 +28,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const mesOpciones   = document.querySelector(".mes-opciones");
     const mesActivo     = document.querySelector(".mes-activo");
 
+    if (!selectorAnio || !selectorMes || !anioOpciones || !mesOpciones) {
+        console.error("Top Números Duros: DOM incompleto");
+        return;
+    }
+
     /* ===============================
        ESTADO VISUAL INICIAL
        =============================== */
     anioActivo.textContent = anioSeleccionado;
     mesActivo.textContent  = "Todos los meses";
+    anioOpciones.classList.remove("open");
+    mesOpciones.classList.remove("open");
 
     /* ===============================
        SELECTOR AÑO
@@ -103,7 +110,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
                 });
             })
-            .catch(err => console.error("Error cargando meses:", err));
+            .catch(err => {
+                console.error("Error cargando meses:", err);
+                mesOpciones.classList.remove("open");
+            });
     }
 
     /* ===============================
