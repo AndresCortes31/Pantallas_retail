@@ -138,23 +138,31 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-                data.forEach(item => {
+                    data.forEach(item => {
 
-                    const numero = item.numero.toString().padStart(2, '0');
+                        const numInt = parseInt(item.numero, 10);
+                        const numero = numInt.toString().padStart(2, '0');
 
-                    contenedor.innerHTML += `
-                        <div class="fila-duro">
-                            <span class="numero">
-                                ${numero}
-                                <img src="../assets/img/SUENOS_HN/${numero}-SUENO.png"
-                                     onerror="this.style.display='none'">
-                            </span>
-                            <span class="dias">
-                                ${item.dias_sin_jugar} DÍAS SIN JUGAR
-                            </span>
-                        </div>
-                    `;
-                });
+                        let imgHTML = '';
+
+                        // Solo sueños válidos 00–31
+                        if (numInt >= 0 && numInt <= 31) {
+                            imgHTML = `<img src="../assets/img/SUENOS_HN/${numero}-SUENO.png">`;
+                        }
+
+                        contenedor.innerHTML += `
+                            <div class="fila-duro">
+                                <span class="numero">
+                                    ${numero}
+                                    ${imgHTML}
+                                </span>
+                                <span class="dias">
+                                    ${item.dias_sin_jugar} DÍAS SIN JUGAR
+                                </span>
+                            </div>
+                        `;
+                    });
+
             })
             .catch(err => console.error("Error cargando top números duros:", err));
     }
