@@ -21,9 +21,8 @@
     <script src="assets/js/num_sorteados_mes.js"></script>
     <script src="assets/js/num_sorteados_semana.js"></script>
     <script src="assets/js/resultados-anteriores.js"></script>
-    <?php if ($_GET['page'] === 'top_lineas_ganadoras'): ?>
-     <script src="assets/js/top_lineas_ganadoras.js"></script>
-     <?php endif; ?>
+    <script src="assets/js/top_lineas_ganadoras.js"></script>
+
 
 
 </body>
