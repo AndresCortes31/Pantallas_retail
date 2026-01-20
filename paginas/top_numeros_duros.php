@@ -51,56 +51,7 @@
                 <span>NUM. DE DÍAS SIN JUGAR</span>
             </div>
 
-            <!-- FILAS -->
-            <div class="fila-duro">
-                <span class="numero">11 <img src="../assets/img/SUENOS_HN/11-PERRO.png"></span>
-                <span class="dias">102 DÍAS SIN JUGAR</span>
-            </div>
-
-            <div class="fila-duro">
-                <span class="numero">24 <img src="../assets/img/SUENOS_HN/24-SAPO.png"></span>
-                <span class="dias">98 DÍAS SIN JUGAR</span>
-            </div>
-
-            <div class="fila-duro">
-                <span class="numero">30 <img src="../assets/img/SUENOS_HN/30-BOLO.png"></span>
-                <span class="dias">86 DÍAS SIN JUGAR</span>
-            </div>
-
-            <div class="fila-duro">
-                <span class="numero">54 <img src="../assets/img/SUENOS_HN/54-LICOR.png"></span>
-                <span class="dias">83 DÍAS SIN JUGAR</span>
-            </div>
-
-            <div class="fila-duro">
-                <span class="numero">77 <img src="../assets/img/SUENOS_HN/77-HUMO.png"></span>
-                <span class="dias">79 DÍAS SIN JUGAR</span>
-            </div>
-
-            <div class="fila-duro">
-                <span class="numero">70 <img src="../assets/img/SUENOS_HN/70-ORO.png"></span>
-                <span class="dias">75 DÍAS SIN JUGAR</span>
-            </div>
-
-            <div class="fila-duro">
-                <span class="numero">36 <img src="../assets/img/SUENOS_HN/36-VIEJITA.png"></span>
-                <span class="dias">69 DÍAS SIN JUGAR</span>
-            </div>
-
-            <div class="fila-duro">
-                <span class="numero">94 <img src="../assets/img/SUENOS_HN/94-CARRO.png"></span>
-                <span class="dias">50 DÍAS SIN JUGAR</span>
-            </div>
-
-            <div class="fila-duro">
-                <span class="numero">19 <img src="../assets/img/SUENOS_HN/19-MARIPOSA.png"></span>
-                <span class="dias">48 DÍAS SIN JUGAR</span>
-            </div>
-
-            <div class="fila-duro">
-                <span class="numero">02 <img src="../assets/img/SUENOS_HN/02-MUJER.png"></span>
-                <span class="dias">37 DÍAS SIN JUGAR</span>
-            </div>
+            <!-- js  -->
 
         </div>
 

@@ -165,5 +165,53 @@ function obtenerTopLineasGanadoras(PDO $conn, int $anio, int $mes = 0): array {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 //--------------------------------------------FNCION OBTENER TOP LINEAS GANADORES PANTALLA 4-----------------------------------------//
+
+//--------------------------------------------FUNCION OBTENER top 10 numeros duros PANTALLA 5----------------------------------------//
+//----------------------------------- INICIO OBTENER TOP NUMEROS DUROS (PANTALLA 5) ----------------------------------------------//
+function obtenerTopNumerosDuros(PDO $conn, int $anio, int $mes = 0): array {
+
+    $sql = "
+        DECLARE @anio INT = :anio;
+        DECLARE @mes  INT = :mes;
+
+        DECLARE @fechaInicio DATE =
+            CASE
+                WHEN @mes = 0
+                    THEN DATEFROMPARTS(@anio, 1, 1)
+                ELSE
+                    DATEFROMPARTS(@anio, @mes, 1)
+            END;
+
+        DECLARE @fechaFin DATE =
+            CASE
+                WHEN @mes = 0
+                    THEN DATEFROMPARTS(@anio, 12, 31)
+                ELSE
+                    EOMONTH(DATEFROMPARTS(@anio, @mes, 1))
+            END;
+
+        SELECT TOP 10
+            CAST(resultado_ganador AS INT) AS numero,
+            MAX(fecha_larga_sorteo) AS ultima_fecha,
+            DATEDIFF(DAY, MAX(fecha_larga_sorteo), @fechaFin) AS dias_sin_jugar
+        FROM numeros_ganadores_sorteos
+        WHERE nombre_juego = 'La Diaria'
+          AND descripcion_premio = 'Numeros Sorteados'
+          AND TRY_CAST(resultado_ganador AS INT) IS NOT NULL
+          AND fecha_larga_sorteo BETWEEN @fechaInicio AND @fechaFin
+        GROUP BY CAST(resultado_ganador AS INT)
+        ORDER BY dias_sin_jugar DESC, numero ASC;
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindValue(':anio', $anio, PDO::PARAM_INT);
+    $stmt->bindValue(':mes',  $mes,  PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+//----------------------------------- FIN OBTENER TOP NUMEROS DUROS (PANTALLA 5) ----------------------------------------------//
+
+//--------------------------------------------FUNCION OBTENER top 10 numeros duros PANTALLA 5----------------------------------------// 
 /////////////////////////////////////////////// INICIO FUNCIONES //////////////////////////////////////////////////////////////////////
 ?>
