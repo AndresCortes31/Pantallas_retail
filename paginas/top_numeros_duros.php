@@ -43,7 +43,7 @@
             </div>
 
         <!-- LISTADO -->
-        <div class="listado-duros">
+        <div class="listado-duros" id="listadoDuros">
 
             <!-- TITULOS -->
             <div class="titulos-duros">
