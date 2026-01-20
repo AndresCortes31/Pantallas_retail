@@ -1,33 +1,69 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* =====================================================
-       REFERENCIAS DOM
-       ===================================================== */
-    const anioActivo   = document.querySelector(".anio-activo");
-    const anioDropdown = document.querySelector(".anio-dropdown");
-    const anioOpciones = document.querySelector(".anio-opciones");
-
-    const mesActivo   = document.querySelector(".mes-activo");
-    const mesDropdown = document.querySelector(".mes-dropdown");
-    const mesOpciones = document.querySelector(".mes-opciones");
-
-    if (!anioActivo || !anioDropdown || !anioOpciones ||
-        !mesActivo  || !mesDropdown  || !mesOpciones) {
-        console.warn("Top números duros: selectores no presentes");
+    // 🔐 Guard clause – solo Pantalla 5
+    const contenedor = document.querySelector(".listado-duros");
+    if (!contenedor) {
+        console.warn("Top Números Duros: pantalla no activa");
         return;
     }
 
-    /* =====================================================
+    /* ===============================
        ESTADO
-       ===================================================== */
-    const estado = {
-        anio: parseInt(anioActivo.textContent, 10),
-        mes: 0
-    };
+       =============================== */
+    let anioSeleccionado = new Date().getFullYear();
+    let mesSeleccionado  = 0; // 0 = Todos
 
-    /* =====================================================
-       DATA MESES (ÚNICO DATO EN JS)
-       ===================================================== */
+    /* ===============================
+       DOM
+       =============================== */
+    const selectorAnio  = document.querySelector(".selector-anio");
+    const anioDropdown  = document.querySelector(".anio-dropdown");
+    const anioOpciones  = document.querySelector(".anio-opciones");
+    const anioActivo    = document.querySelector(".anio-activo");
+
+    const selectorMes   = document.querySelector(".selector-mes");
+    const mesDropdown   = document.querySelector(".mes-dropdown");
+    const mesOpciones   = document.querySelector(".mes-opciones");
+    const mesActivo     = document.querySelector(".mes-activo");
+
+    /* ===============================
+       ESTADO INICIAL VISUAL
+       =============================== */
+    anioActivo.textContent = anioSeleccionado;
+    mesActivo.textContent  = "Todos los meses";
+
+    /* ===============================
+       SELECTOR AÑO
+       =============================== */
+    anioDropdown.addEventListener("click", e => {
+        e.stopPropagation();
+        anioOpciones.classList.toggle("open");
+        mesOpciones.classList.remove("open");
+    });
+
+    anioOpciones.querySelectorAll("div").forEach(opcion => {
+        opcion.addEventListener("click", () => {
+            anioSeleccionado = parseInt(opcion.dataset.anio, 10);
+            anioActivo.textContent = anioSeleccionado;
+            anioOpciones.classList.remove("open");
+
+            // reset mes
+            mesSeleccionado = 0;
+            mesActivo.textContent = "Todos los meses";
+
+            console.log("Año:", anioSeleccionado, "Mes:", mesSeleccionado);
+        });
+    });
+
+    /* ===============================
+       SELECTOR MES
+       =============================== */
+    mesDropdown.addEventListener("click", e => {
+        e.stopPropagation();
+        mesOpciones.classList.toggle("open");
+        anioOpciones.classList.remove("open");
+    });
+
     const meses = [
         { id: 0,  nombre: "Todos los meses" },
         { id: 1,  nombre: "Enero" },
@@ -44,81 +80,33 @@ document.addEventListener("DOMContentLoaded", () => {
         { id: 12, nombre: "Diciembre" }
     ];
 
-    /* =====================================================
-       UTILIDADES
-       ===================================================== */
-    function cerrarDropdowns() {
-        anioOpciones.style.display = "none";
-        mesOpciones.style.display  = "none";
-    }
+    mesOpciones.innerHTML = "";
+    meses.forEach(m => {
+        const div = document.createElement("div");
+        div.dataset.mes = m.id;
+        div.textContent = m.nombre;
 
-    /* =====================================================
-       DROPDOWN AÑO (DINÁMICO DESDE PHP)
-       ===================================================== */
-    anioDropdown.addEventListener("click", e => {
-        e.stopPropagation();
-        cerrarDropdowns();
-        anioOpciones.style.display = "block";
-    });
-
-    anioOpciones.querySelectorAll("div").forEach(div => {
         div.addEventListener("click", () => {
-            estado.anio = parseInt(div.dataset.anio, 10);
-            anioActivo.textContent = div.dataset.anio;
+            mesSeleccionado = m.id;
+            mesActivo.textContent = m.nombre;
+            mesOpciones.classList.remove("open");
 
-            cerrarDropdowns();
-            cargarMeses();
-
-            console.log("📅 Año seleccionado:", estado.anio);
-            // 👉 aquí luego llamamos al fetch
-        });
-    });
-
-    /* =====================================================
-       DROPDOWN MES
-       ===================================================== */
-    mesDropdown.addEventListener("click", e => {
-        e.stopPropagation();
-        cerrarDropdowns();
-        mesOpciones.style.display = "block";
-    });
-
-    function cargarMeses() {
-        mesOpciones.innerHTML = "";
-
-        meses.forEach(m => {
-            const div = document.createElement("div");
-            div.textContent = m.nombre;
-            div.dataset.mes = m.id;
-
-            div.addEventListener("click", () => {
-                estado.mes = m.id;
-                mesActivo.textContent = m.nombre;
-                mesActivo.dataset.mes = m.id;
-
-                cerrarDropdowns();
-
-                console.log("📆 Mes seleccionado:", estado.mes);
-                // 👉 aquí luego llamamos al fetch
-            });
-
-            mesOpciones.appendChild(div);
+            console.log("Año:", anioSeleccionado, "Mes:", mesSeleccionado);
         });
 
-        // reset por defecto
-        estado.mes = 0;
-        mesActivo.textContent = "Todos los meses";
-        mesActivo.dataset.mes = 0;
-    }
+        mesOpciones.appendChild(div);
+    });
 
-    /* =====================================================
+    /* ===============================
        CLICK FUERA
-       ===================================================== */
-    document.addEventListener("click", cerrarDropdowns);
-
-    /* =====================================================
-       INIT
-       ===================================================== */
-    cargarMeses();
+       =============================== */
+    document.addEventListener("click", e => {
+        if (!selectorAnio.contains(e.target)) {
+            anioOpciones.classList.remove("open");
+        }
+        if (!selectorMes.contains(e.target)) {
+            mesOpciones.classList.remove("open");
+        }
+    });
 
 });
