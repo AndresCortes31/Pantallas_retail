@@ -72,21 +72,30 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ===============================
        ESTADO VISUAL DE MESES
        =============================== */
-    function actualizarEstadoMeses(anioSeleccionado) {
+function actualizarEstadoMeses(anioSeleccionado) {
 
-        const anioActual = new Date().getFullYear();
-        const meses = document.querySelectorAll(".fila-head span[data-mes]");
+    const anioActual = new Date().getFullYear();
+    const mesActual = new Date().getMonth() + 1; // 1 - 12
 
-        meses.forEach(mes => {
-            mes.classList.remove("mes-activo", "mes-todos-activos");
+    const meses = document.querySelectorAll(".fila-head span[data-mes]");
 
-            if (anioSeleccionado < anioActual) {
-                // Años pasados → todos activos
-                mes.classList.add("mes-todos-activos");
+    meses.forEach(mes => {
+        mes.classList.remove("mes-activo", "mes-todos-activos");
+
+        const mesNumero = parseInt(mes.dataset.mes);
+
+        if (anioSeleccionado < anioActual) {
+            // Años pasados → todos activos
+            mes.classList.add("mes-todos-activos");
+        } 
+        else if (anioSeleccionado === anioActual) {
+            // Año actual → solo el mes actual activo
+            if (mesNumero === mesActual) {
+                mes.classList.add("mes-activo");
             }
-            // Año actual → quedan pasivos (opacity 0.65)
-        });
-    }
+        }
+    });
+}
 
     /* ===============================
        CARGAR DATOS POR AÑO
