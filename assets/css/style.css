@@ -1391,7 +1391,7 @@ body {
     border-radius: 18px;
     font-size: 18px;
     font-weight: bold;
-    color: #ff7a00; /* naranja correcto */
+    color: #ff7a00;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -1419,7 +1419,6 @@ body {
     min-width: 160px;
 }
 
-/* visible */
 .anio-opciones.open {
     display: block;
 }
@@ -1479,7 +1478,7 @@ body {
 }
 
 /* ===============================
-   CABECERA
+   CABECERA (MESES PASIVOS)
    =============================== */
 
 .fila-head span {
@@ -1489,6 +1488,17 @@ body {
     border-radius: 999px;
     font-size: 13px;
     font-weight: bold;
+
+    /* 👇 efecto disabled */
+    opacity: 0.7;
+    cursor: default;
+    pointer-events: none;
+    box-shadow: none;
+}
+
+/* TOTAL un poco más fuerte */
+.fila-head span.total {
+    opacity: 1;
 }
 
 /* ===============================
@@ -1546,6 +1556,5 @@ body {
         gap: 20px;
     }
 }
-
 
 /*////////////////////////////////////////////// FIN Css del archivo top_numeros_ganadores_anio.php////////////////////////////////////////////////*/

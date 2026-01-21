@@ -23,6 +23,7 @@
     <script src="assets/js/resultados-anteriores.js"></script>
     <script src="assets/js/top_lineas_ganadoras.js"></script>
     <script src="assets/js/top_numeros_duros.js"></script>
+    <script src="assets/js/top_numeros_ganadores_anio.js"></script>
 
 
 
