@@ -107,6 +107,36 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =====================================================
        CARGAR TOP NÚMEROS DUROS
        ===================================================== */
+
+       /* ======================================================
+   IMÁGENES DE SUEÑOS – TOP NÚMEROS DUROS
+   ====================================================== */
+function imagenSueno(numero) {
+
+    if (numero === null || numero === undefined) return "";
+
+    const key = numero.toString().padStart(2, "0");
+
+    // Validar que exista en el mapa
+    if (typeof MAPA_SUENOS === "undefined") {
+        console.error("❌ MAPA_SUENOS no está cargado");
+        return "";
+    }
+
+    if (!MAPA_SUENOS[key]) {
+        console.warn(`⚠️ No existe imagen para el número ${key}`);
+        return "";
+    }
+
+    return `
+        <img 
+            src="../assets/img/SUENOS_HN/${MAPA_SUENOS[key]}"
+            alt="Sueño ${key}"
+            class="img-sueno"
+        >
+    `;
+}
+
     function cargarTopNumerosDuros() {
 
         fetch(`../api/top_numeros_duros.php?anio=${anioSeleccionado}&mes=${mesSeleccionado}`)
