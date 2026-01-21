@@ -36,7 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
        =============================== */
     function pintarTabla(data) {
 
-        // Limpiar filas anteriores (excepto cabecera)
         tabla.querySelectorAll(".fila:not(.fila-head)").forEach(f => f.remove());
 
         data.forEach(row => {
@@ -71,6 +70,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ===============================
+       ESTADO VISUAL DE MESES
+       =============================== */
+    function actualizarEstadoMeses(anioSeleccionado) {
+
+        const anioActual = new Date().getFullYear();
+        const meses = document.querySelectorAll(".fila-head span[data-mes]");
+
+        meses.forEach(mes => {
+            mes.classList.remove("mes-activo", "mes-todos-activos");
+
+            if (anioSeleccionado < anioActual) {
+                // Años pasados → todos activos
+                mes.classList.add("mes-todos-activos");
+            }
+            // Año actual → quedan pasivos (opacity 0.65)
+        });
+    }
+
+    /* ===============================
        CARGAR DATOS POR AÑO
        =============================== */
     function cargarDatosPorAnio(anio) {
@@ -81,21 +99,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ===============================
-       SELECTOR DE AÑO (LOCAL)
+       SELECTOR DE AÑO
        =============================== */
     document.querySelectorAll(".anio-opciones div").forEach(opcion => {
         opcion.addEventListener("click", () => {
 
-            const anio = opcion.dataset.anio;
+            const anio = parseInt(opcion.dataset.anio);
 
-            // Actualizar texto visible
             anioActivo.textContent = anio;
-
-            // Cerrar dropdown
             document.querySelector(".anio-opciones").classList.remove("open");
 
-            // Cargar datos
             cargarDatosPorAnio(anio);
+            actualizarEstadoMeses(anio);
         });
     });
 
@@ -103,7 +118,9 @@ document.addEventListener("DOMContentLoaded", () => {
        CARGA INICIAL
        =============================== */
     if (anioActivo?.textContent) {
-        cargarDatosPorAnio(anioActivo.textContent);
+        const anio = parseInt(anioActivo.textContent);
+        cargarDatosPorAnio(anio);
+        actualizarEstadoMeses(anio);
     }
 
 });
