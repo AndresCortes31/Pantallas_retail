@@ -1,13 +1,22 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* =================================================
-       TOP NÚMEROS GANADORES DEL AÑO
-       PANTALLA INFORMATIVA (SIN INTERACCIÓN)
-       ================================================= */
+    const hoy = new Date();
+    const anioActual = hoy.getFullYear();
+    const mesActual = hoy.getMonth() + 1; // 1 = enero
 
-    // Intencionalmente vacío
-    // El comportamiento visual está controlado por CSS
-    // (encabezados verdes en estado pasivo)
+    const anioSeleccionado = parseInt(
+        document.querySelector(".anio-activo")?.textContent || 0
+    );
+
+    // Solo efecto visual si es el año actual
+    if (anioSeleccionado === anioActual) {
+        const mesHeader = document.querySelector(
+            `.fila-head span[data-mes="${mesActual}"]`
+        );
+
+        if (mesHeader) {
+            mesHeader.classList.add("mes-activo");
+        }
+    }
 
 });
-

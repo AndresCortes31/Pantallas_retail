@@ -1351,6 +1351,10 @@ body {
    TOP NUMEROS GANADORES DEL AÑO
    =============================== */
 
+/* ===============================
+   TOP NUMEROS GANADORES DEL AÑO
+   =============================== */
+
 .contenido-top-anio {
     display: flex;
     flex-direction: column;
@@ -1478,9 +1482,10 @@ body {
 }
 
 /* ===============================
-   CABECERA (MESES PASIVOS)
+   CABECERA (ESTADO VISUAL)
    =============================== */
 
+/* estado pasivo por defecto */
 .fila-head span {
     background: #3e8e41;
     color: #ffffff;
@@ -1489,15 +1494,23 @@ body {
     font-size: 13px;
     font-weight: bold;
 
-    /* 👇 efecto disabled */
-    opacity: 0.7;
+    opacity: 0.65;              /* 👈 pasivo */
     cursor: default;
     pointer-events: none;
-    box-shadow: none;
 }
 
-/* TOTAL un poco más fuerte */
+/* TOTAL siempre activo */
 .fila-head span.total {
+    opacity: 1;
+}
+
+/* NÚMERO igual que TOTAL */
+.fila-head span.col-numero {
+    opacity: 1;
+}
+
+/* MES ACTUAL (solo visual, ej. ENERO en 2026) */
+.fila-head span.mes-activo {
     opacity: 1;
 }
 
@@ -1521,7 +1534,7 @@ body {
 }
 
 /* ===============================
-   TOTAL
+   TOTAL CELDA
    =============================== */
 
 .total {
@@ -1556,5 +1569,4 @@ body {
         gap: 20px;
     }
 }
-
 /*////////////////////////////////////////////// FIN Css del archivo top_numeros_ganadores_anio.php////////////////////////////////////////////////*/
