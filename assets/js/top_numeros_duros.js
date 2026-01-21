@@ -1,21 +1,23 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // 🔐 Guard: este JS es SOLO para Pantalla 5
+    /* =====================================================
+       GUARD CLAUSE
+       ===================================================== */
     const contenedor = document.getElementById("listadoDuros");
     if (!contenedor) {
-        console.warn("Top Números Duros: pantalla no activa, JS detenido");
+        console.warn("Top Números Duros: pantalla no activa");
         return;
     }
 
-    /* ===============================
-       ESTADO INICIAL
-       =============================== */
+    /* =====================================================
+       ESTADO
+       ===================================================== */
     let anioSeleccionado = new Date().getFullYear();
-    let mesSeleccionado  = 0; // 0 = Todo el año
+    let mesSeleccionado  = 0; // 0 = todos
 
-    /* ===============================
+    /* =====================================================
        REFERENCIAS DOM
-       =============================== */
+       ===================================================== */
     const selectorAnio  = document.querySelector(".selector-anio");
     const anioDropdown  = document.querySelector(".anio-dropdown");
     const anioOpciones  = document.querySelector(".anio-opciones");
@@ -26,14 +28,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const mesOpciones   = document.querySelector(".mes-opciones");
     const mesActivo     = document.querySelector(".mes-activo");
 
-    // Estado visual inicial
     anioActivo.textContent = anioSeleccionado;
     mesActivo.textContent  = "Todos los meses";
 
-    /* ===============================
+    /* =====================================================
        SELECTOR AÑO
-       =============================== */
-    anioDropdown.addEventListener("click", (e) => {
+       ===================================================== */
+    anioDropdown.addEventListener("click", e => {
         e.stopPropagation();
         anioOpciones.classList.toggle("open");
         mesOpciones.classList.remove("open");
@@ -46,34 +47,35 @@ document.addEventListener("DOMContentLoaded", () => {
             anioActivo.textContent = anioSeleccionado;
             anioOpciones.classList.remove("open");
 
-            // Reset mes
+            // reset mes
             mesSeleccionado = 0;
             mesActivo.textContent = "Todos los meses";
+            mesActivo.dataset.mes = 0;
 
             cargarMesesPorAnio(anioSeleccionado);
-            cargarTopNumerosDuros(anioSeleccionado, mesSeleccionado);
+            cargarTopNumerosDuros();
         });
     });
 
-    /* ===============================
+    /* =====================================================
        SELECTOR MES
-       =============================== */
-    mesDropdown.addEventListener("click", (e) => {
+       ===================================================== */
+    mesDropdown.addEventListener("click", e => {
         e.stopPropagation();
         mesOpciones.classList.toggle("open");
         anioOpciones.classList.remove("open");
     });
 
-    /* ===============================
-       CARGAR MESES POR AÑO
-       =============================== */
+    /* =====================================================
+       CARGAR MESES DESDE API
+       ===================================================== */
     function cargarMesesPorAnio(anio) {
 
         fetch(`../api/meses_por_anio.php?anio=${anio}`)
-            .then(res => res.json())
+            .then(r => r.json())
             .then(meses => {
 
-                const nombresMeses = [
+                const nombres = [
                     "", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
                     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
                 ];
@@ -83,43 +85,32 @@ document.addEventListener("DOMContentLoaded", () => {
                 meses.forEach(mes => {
                     mesOpciones.innerHTML += `
                         <div data-mes="${mes}">
-                            ${nombresMeses[mes]}
+                            ${nombres[mes]}
                         </div>
                     `;
                 });
 
-                mesOpciones.querySelectorAll("div").forEach(opcion => {
-                    opcion.addEventListener("click", () => {
-                        mesSeleccionado = parseInt(opcion.dataset.mes, 10);
-                        mesActivo.textContent = opcion.textContent;
+                mesOpciones.querySelectorAll("div").forEach(op => {
+                    op.addEventListener("click", () => {
+                        mesSeleccionado = parseInt(op.dataset.mes, 10);
+                        mesActivo.textContent = op.textContent;
+                        mesActivo.dataset.mes = mesSeleccionado;
                         mesOpciones.classList.remove("open");
 
-                        cargarTopNumerosDuros(anioSeleccionado, mesSeleccionado);
+                        cargarTopNumerosDuros();
                     });
                 });
             })
-            .catch(err => console.error("Error cargando meses:", err));
+            .catch(err => console.error("❌ Error meses:", err));
     }
 
-    /* ===============================
-       CLICK FUERA
-       =============================== */
-    document.addEventListener("click", (e) => {
-        if (selectorAnio && !selectorAnio.contains(e.target)) {
-            anioOpciones.classList.remove("open");
-        }
-        if (selectorMes && !selectorMes.contains(e.target)) {
-            mesOpciones.classList.remove("open");
-        }
-    });
-
-    /* ===============================
+    /* =====================================================
        CARGAR TOP NÚMEROS DUROS
-       =============================== */
-    function cargarTopNumerosDuros(anio, mes) {
+       ===================================================== */
+    function cargarTopNumerosDuros() {
 
-        fetch(`../api/top_numeros_duros.php?anio=${anio}&mes=${mes}`)
-            .then(res => res.json())
+        fetch(`../api/top_numeros_duros.php?anio=${anioSeleccionado}&mes=${mesSeleccionado}`)
+            .then(r => r.json())
             .then(data => {
 
                 contenedor.innerHTML = `
@@ -129,47 +120,51 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 `;
 
-                if (!Array.isArray(data) || data.length === 0) {
+                if (!data || !data.length) {
                     contenedor.innerHTML += `
-                        <p style="text-align:center; margin-top:20px;">
+                        <p style="text-align:center;margin-top:20px">
                             Sin datos para este período
                         </p>
                     `;
                     return;
                 }
 
-                    data.forEach(item => {
+                data.forEach(item => {
 
-                        const numInt = parseInt(item.numero, 10);
-                        const numero = numInt.toString().padStart(2, '0');
+                    const numero = item.numero.toString().padStart(2, "0");
 
-                        let imgHTML = '';
-
-                        // Solo sueños válidos 00–31
-                        if (numInt >= 0 && numInt <= 31) {
-                            imgHTML = `<img src="../assets/img/SUENOS_HN/${numero}-SUENO.png">`;
-                        }
-
-                        contenedor.innerHTML += `
-                            <div class="fila-duro">
-                                <span class="numero">
-                                    ${numero}
-                                    ${imgHTML}
-                                </span>
-                                <span class="dias">
-                                    ${item.dias_sin_jugar} DÍAS SIN JUGAR
-                                </span>
-                            </div>
-                        `;
-                    });
-
+                    contenedor.innerHTML += `
+                        <div class="fila-duro">
+                            <span class="numero">
+                                ${numero}
+                                ${imagenSueno(numero)}
+                            </span>
+                            <span class="dias">
+                                ${item.dias_sin_jugar} DÍAS SIN JUGAR
+                            </span>
+                        </div>
+                    `;
+                });
             })
-            .catch(err => console.error("Error cargando top números duros:", err));
+            .catch(err => console.error("❌ Error top números duros:", err));
     }
 
-    /* ===============================
+    /* =====================================================
+       CLICK FUERA → CERRAR DROPDOWNS
+       ===================================================== */
+    document.addEventListener("click", e => {
+        if (selectorAnio && !selectorAnio.contains(e.target)) {
+            anioOpciones.classList.remove("open");
+        }
+        if (selectorMes && !selectorMes.contains(e.target)) {
+            mesOpciones.classList.remove("open");
+        }
+    });
+
+    /* =====================================================
        INIT
-       =============================== */
+       ===================================================== */
     cargarMesesPorAnio(anioSeleccionado);
-    cargarTopNumerosDuros(anioSeleccionado, mesSeleccionado);
+    cargarTopNumerosDuros();
+
 });
