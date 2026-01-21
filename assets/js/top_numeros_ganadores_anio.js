@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
        CARGAR DATOS POR AÑO
        =============================== */
     function cargarDatosPorAnio(anio) {
-        fetch(`../apis/top_numeros_ganadores_anio.php?anio=${anio}`)
+        fetch(`../api/top_numeros_ganadores_anio.php?anio=${anio}`)
             .then(res => res.json())
             .then(data => pintarTabla(data))
             .catch(err => console.error("❌ Error cargando datos:", err));
