@@ -58,22 +58,6 @@
             </div>
 
 
-            <!-- FILAS -->
-            <div class="fila">
-                <span class="numero">11 <img src="../assets/img/SUENOS_HN/11-PERRO.png"></span>
-                <span>4</span><span>3</span><span>4</span><span>4</span>
-                <span>3</span><span>4</span><span>3</span><span>3</span>
-                <span>4</span><span>4</span><span>3</span><span>4</span>
-                <span class="total">43</span>
-            </div>
-
-            <div class="fila">
-                <span class="numero">24 <img src="../assets/img/SUENOS_HN/24-SAPO.png"></span>
-                <span>4</span><span>2</span><span>3</span><span>4</span>
-                <span>2</span><span>3</span><span>4</span><span>2</span>
-                <span>3</span><span>4</span><span>2</span><span>3</span>
-                <span class="total">36</span>
-            </div>
 
             <!-- Repetís filas según datos reales -->
 
