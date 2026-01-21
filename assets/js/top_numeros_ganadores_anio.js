@@ -1,14 +1,34 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const tabla = document.querySelector(".tabla-anio");
+    const anioActivo = document.querySelector(".anio-activo");
 
     /* ===============================
-       MAPA DE IMÁGENES POR NÚMERO
+       IMAGEN DE SUEÑO (USA MAPA_SUENOS)
        =============================== */
-    function obtenerImagenNumero(numero) {
-        // Formato 01, 02, 03...
-        const numFormateado = numero.toString().padStart(2, "0");
-        return `../assets/img/SUENOS_HN/${numFormateado}.png`;
+    function imagenSueno(numero) {
+
+        if (numero === null || numero === undefined) return "";
+
+        const key = numero.toString().padStart(2, "0");
+
+        if (typeof MAPA_SUENOS === "undefined") {
+            console.error("❌ MAPA_SUENOS no está cargado");
+            return "";
+        }
+
+        if (!MAPA_SUENOS[key]) {
+            console.warn(`⚠️ No existe imagen para el número ${key}`);
+            return "";
+        }
+
+        return `
+            <img 
+                src="../assets/img/SUENOS_HN/${MAPA_SUENOS[key]}"
+                alt="Sueño ${key}"
+                class="img-sueno"
+            >
+        `;
     }
 
     /* ===============================
@@ -27,9 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
             fila.innerHTML = `
                 <span class="numero">
                     ${row.numero}
-                    <img src="${obtenerImagenNumero(row.numero)}"
-                         alt="Sueño ${row.numero}"
-                         onerror="this.style.display='none'">
+                    ${imagenSueno(row.numero)}
                 </span>
 
                 <span>${row.ene}</span>
@@ -56,27 +74,36 @@ document.addEventListener("DOMContentLoaded", () => {
        CARGAR DATOS POR AÑO
        =============================== */
     function cargarDatosPorAnio(anio) {
-        fetch(`../api/top_numeros_ganadores_anio.php?anio=${anio}`)
+        fetch(`../apis/top_numeros_ganadores_anio.php?anio=${anio}`)
             .then(res => res.json())
             .then(data => pintarTabla(data))
-            .catch(err => {
-                console.error("Error cargando datos:", err);
-            });
+            .catch(err => console.error("❌ Error cargando datos:", err));
     }
 
     /* ===============================
-       ESCUCHAR CAMBIO DE AÑO
+       SELECTOR DE AÑO (LOCAL)
        =============================== */
-    document.addEventListener("anioCambiado", e => {
-        cargarDatosPorAnio(e.detail.anio);
+    document.querySelectorAll(".anio-opciones div").forEach(opcion => {
+        opcion.addEventListener("click", () => {
+
+            const anio = opcion.dataset.anio;
+
+            // Actualizar texto visible
+            anioActivo.textContent = anio;
+
+            // Cerrar dropdown
+            document.querySelector(".anio-opciones").classList.remove("open");
+
+            // Cargar datos
+            cargarDatosPorAnio(anio);
+        });
     });
 
     /* ===============================
        CARGA INICIAL
        =============================== */
-    const anioInicial = document.querySelector(".anio-activo")?.textContent;
-    if (anioInicial) {
-        cargarDatosPorAnio(anioInicial);
+    if (anioActivo?.textContent) {
+        cargarDatosPorAnio(anioActivo.textContent);
     }
 
 });
