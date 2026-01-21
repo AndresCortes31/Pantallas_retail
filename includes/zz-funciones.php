@@ -210,8 +210,55 @@ function obtenerTopNumerosDuros(PDO $conn, int $anio, int $mes = 0): array {
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-//----------------------------------- FIN OBTENER TOP NUMEROS DUROS (PANTALLA 5) ----------------------------------------------//
 
 //--------------------------------------------FUNCION OBTENER top 10 numeros duros PANTALLA 5----------------------------------------// 
+
+//--------------------------------------------FUNCION OBTENER TOP 10 NUEMEROS GANADORES POR AÑO PANTALLA 6---------------------------//
+
+function obtenerTop10NumerosGanadoresPorAnio($conn, $anio)
+{
+    $sql = "
+        WITH numeros AS (
+            SELECT
+                LTRIM(RTRIM(value)) AS numero,
+                MONTH(fecha) AS mes
+            FROM numeros_ganadores_sorteos
+            CROSS APPLY STRING_SPLIT(resultado_ganador, ' ')
+            WHERE nombre_juego = 'La Diaria'
+              AND descripcion_premio = 'Numeros Sorteados'
+              AND YEAR(fecha) = :anio
+              AND value NOT LIKE '%[^0-9]%'
+        )
+        SELECT TOP 10
+            numero,
+
+            SUM(CASE WHEN mes = 1  THEN 1 ELSE 0 END) AS ene,
+            SUM(CASE WHEN mes = 2  THEN 1 ELSE 0 END) AS feb,
+            SUM(CASE WHEN mes = 3  THEN 1 ELSE 0 END) AS mar,
+            SUM(CASE WHEN mes = 4  THEN 1 ELSE 0 END) AS abr,
+            SUM(CASE WHEN mes = 5  THEN 1 ELSE 0 END) AS may,
+            SUM(CASE WHEN mes = 6  THEN 1 ELSE 0 END) AS jun,
+            SUM(CASE WHEN mes = 7  THEN 1 ELSE 0 END) AS jul,
+            SUM(CASE WHEN mes = 8  THEN 1 ELSE 0 END) AS ago,
+            SUM(CASE WHEN mes = 9  THEN 1 ELSE 0 END) AS sep,
+            SUM(CASE WHEN mes = 10 THEN 1 ELSE 0 END) AS oct,
+            SUM(CASE WHEN mes = 11 THEN 1 ELSE 0 END) AS nov,
+            SUM(CASE WHEN mes = 12 THEN 1 ELSE 0 END) AS dic,
+
+            COUNT(*) AS total
+        FROM numeros
+        GROUP BY numero
+        ORDER BY total DESC
+    ";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':anio', $anio, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+//--------------------------------------------FUNCION OBTENER TOP 10 NUEMEROS GANADORES POR AÑO PANTALLA 6---------------------------//
 /////////////////////////////////////////////// INICIO FUNCIONES //////////////////////////////////////////////////////////////////////
 ?>
