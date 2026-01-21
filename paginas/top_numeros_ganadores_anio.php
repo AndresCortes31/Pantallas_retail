@@ -36,12 +36,27 @@
 
             <!-- CABECERA -->
             <div class="fila fila-head">
-                <span>NÚMERO</span>
-                <span>ENE</span><span>FEB</span><span>MAR</span><span>ABR</span>
-                <span>MAY</span><span>JUN</span><span>JUL</span><span>AGO</span>
-                <span>SEP</span><span>OCT</span><span>NOV</span><span>DIC</span>
+                <!-- NÚMERO (debe verse como TOTAL) -->
+                <span class="col-numero">NÚMERO</span>
+
+                <!-- MESES (solo visual, pasivos por defecto) -->
+                <span data-mes="1">ENE</span>
+                <span data-mes="2">FEB</span>
+                <span data-mes="3">MAR</span>
+                <span data-mes="4">ABR</span>
+                <span data-mes="5">MAY</span>
+                <span data-mes="6">JUN</span>
+                <span data-mes="7">JUL</span>
+                <span data-mes="8">AGO</span>
+                <span data-mes="9">SEP</span>
+                <span data-mes="10">OCT</span>
+                <span data-mes="11">NOV</span>
+                <span data-mes="12">DIC</span>
+
+                <!-- TOTAL (siempre fuerte) -->
                 <span class="total">TOTAL</span>
             </div>
+
 
             <!-- FILAS -->
             <div class="fila">
