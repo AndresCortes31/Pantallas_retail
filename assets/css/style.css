@@ -1351,7 +1351,7 @@ body {
    TOP NUMEROS GANADORES DEL AÑO
    =============================== */
 
-   .contenido-top-anio {
+.contenido-top-anio {
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -1361,6 +1361,83 @@ body {
    SELECTORES + TEXTO
    =============================== */
 
+.selectores {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+/* selector año */
+.selector-anio {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+/* label */
+.label-anio {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4caf50;
+    white-space: nowrap;
+}
+
+/* dropdown */
+.anio-dropdown {
+    background: #f6f6f6;
+    padding: 14px 20px;
+    border-radius: 18px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff7a00; /* naranja correcto */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* flecha */
+.anio-dropdown .flecha {
+    font-size: 14px;
+}
+
+/* opciones */
+.anio-opciones {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 10px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    overflow: hidden;
+    display: none;
+    z-index: 100;
+    min-width: 160px;
+}
+
+/* visible */
+.anio-opciones.open {
+    display: block;
+}
+
+.anio-opciones div {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #4caf50;
+    cursor: pointer;
+    text-align: center;
+}
+
+.anio-opciones div:hover {
+    background: #e8f5e9;
+}
+
+/* texto descriptivo */
 .descripcion-top {
     font-size: 18px;
     font-weight: bold;
@@ -1407,7 +1484,7 @@ body {
 
 .fila-head span {
     background: #3e8e41;
-    color: #fff;
+    color: #ffffff;
     padding: 8px 10px;
     border-radius: 999px;
     font-size: 13px;
@@ -1415,7 +1492,7 @@ body {
 }
 
 /* ===============================
-   NUMERO
+   NUMERO + ICONO
    =============================== */
 
 .numero {
@@ -1425,10 +1502,12 @@ body {
     font-size: 20px;
     font-weight: bold;
     color: #4caf50;
+    justify-content: center;
 }
 
 .numero img {
     width: 26px;
+    height: auto;
 }
 
 /* ===============================
@@ -1437,7 +1516,7 @@ body {
 
 .total {
     background: #3e8e41;
-    color: #fff;
+    color: #ffffff;
     font-weight: bold;
     border-radius: 12px;
     padding: 6px 0;
@@ -1451,12 +1530,22 @@ body {
     .descripcion-top {
         font-size: 16px;
     }
+
+    .anio-dropdown {
+        font-size: 16px;
+        padding: 12px 18px;
+    }
 }
 
 @media (max-width: 1100px) {
     .tabla-anio {
         overflow-x: auto;
     }
+
+    .selectores {
+        gap: 20px;
+    }
 }
+
 
 /*////////////////////////////////////////////// FIN Css del archivo top_numeros_ganadores_anio.php////////////////////////////////////////////////*/
